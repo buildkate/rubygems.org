@@ -15,5 +15,6 @@ steps:
       - 'buildkite-agent cache restore --name gems'
       - 'echo "--- :bundler: bundle install"'
       - time bundle install --jobs 4 --retry 2
+      - bash .buildkite/inject.sh
       - 'echo "--- :outbox_tray: Cache save"'
       - 'buildkite-agent cache save --name gems'
