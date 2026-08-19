@@ -3,7 +3,7 @@ caches:
     cache_key:
       - gems-v1
       - { agent: os }
-      - { agent: arch }
-      - { checksum: Gemfile.lock, fallback_limit: true }
+      - { agent: arch, fallback_limit: true }
+      - { checksum: Gemfile.lock}
     target_paths:
       - vendor/bundle
