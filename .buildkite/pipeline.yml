@@ -1,6 +1,19 @@
+env:
+  BUILDKITE_CACHE_CONFIG_FILE: .buildkite/cache.yml
+  BUILDKITE_AGENT_CACHE_REGISTRY: "~"
+  BUNDLE_PATH: vendor/bundle
+  # Bundler rewrites Gemfile.lock while installing, which changes the checksum
+  # between restore and save so the cache can never hit. Frozen stops it.
+  BUNDLE_FROZEN: "true"
+
 steps:
   - label: ":bundler: Bundle install"
     image: ruby:4.0.6
     command:
       - gem install bundler -v 4.0.16 --no-document
+      - 'echo "--- :inbox_tray: Cache restore"'
+      - 'buildkite-agent cache restore --name gems'
+      - 'echo "--- :bundler: bundle install"'
       - time bundle install --jobs 4 --retry 2
+      - 'echo "--- :outbox_tray: Cache save"'
+      - 'buildkite-agent cache save --name gems'
