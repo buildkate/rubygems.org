@@ -1,0 +1,6 @@
+steps:
+  - label: ":bundler: Bundle install"
+    image: ruby:4.0.6
+    command:
+      - gem install bundler -v 4.0.16 --no-document
+      - time bundle install --jobs 4 --retry 2
